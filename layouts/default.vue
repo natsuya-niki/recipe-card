@@ -80,6 +80,11 @@ export default {
           title: 'Inspire',
           to: '/inspire',
         },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'draggable',
+          to: '/draggable',
+        },
       ],
       miniVariant: false,
       right: true,
