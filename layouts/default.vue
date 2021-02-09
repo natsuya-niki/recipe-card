@@ -85,6 +85,11 @@ export default {
           title: 'draggable',
           to: '/draggable',
         },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'week-a-menu',
+          to: '/week-a-menu',
+        },
       ],
       miniVariant: false,
       right: true,
