@@ -3,61 +3,72 @@
     <div style="margin-top: 20px">
       <h1>1週間の献立</h1>
     </div>
+    <table>
+      <tr>
+        <template v-for="tr in recipe_calendar">
+          <th :key="tr.date">{{ tr.date }}</th>
+        </template>
+      </tr>
+      <tr>
+        <template v-for="tr in recipe_calendar">
+          <td :key="tr.recipes">
+            <template v-for="(id_list, index) in tr.recipes" :key="id_list.id"
+              ><p>{{ id }}</p></template
+            >
+          </td>
+        </template>
+      </tr>
+    </table>
     <div style="margin-top: 20px">
-      <div style="width: 50%; margin-left: 25%; color: #dd0000">
-        <draggable v-model="arrayList">
-          <div v-for="elm in arrayList" :key="elm.id">
-            <template>
-              <v-card :loading="loading" class="mx-auto my-12" max-width="300">
-                <template slot="progress">
-                  <v-progress-linear
-                    color="deep-purple"
-                    height="10"
-                    indeterminate
-                  ></v-progress-linear>
-                </template>
+      <v-layout row wrap style="width: 100%; color: #dd0000">
+        <v-flex v-for="elm in arrayList" :key="elm.id">
+          <template>
+            <v-card :loading="loading" class="ma-2" max-width="300">
+              <template slot="progress">
+                <v-progress-linear
+                  color="deep-purple"
+                  height="10"
+                  indeterminate
+                ></v-progress-linear>
+              </template>
 
-                <v-img
-                  height="250"
-                  src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                ></v-img>
+              <v-img
+                height="250"
+                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+              ></v-img>
 
-                <v-card-title>{{ elm.title }}</v-card-title>
+              <v-card-title>{{ elm.title }}</v-card-title>
 
-                <v-card-text>
-                  <v-row align="center" class="mx-0">
-                    <v-rating
-                      :value="4.5"
-                      color="amber"
-                      dense
-                      half-increments
-                      readonly
-                      size="14"
-                    ></v-rating>
+              <v-card-text>
+                <v-row align="center" class="mx-0">
+                  <v-rating
+                    :value="4.5"
+                    color="amber"
+                    dense
+                    half-increments
+                    readonly
+                    size="14"
+                  ></v-rating>
 
-                    <div class="grey--text ml-4">4.5 (413)</div>
-                  </v-row>
+                  <div class="grey--text ml-4">4.5 (413)</div>
+                </v-row>
 
-                  <div class="my-4 subtitle-1">材料</div>
+                <div class="my-4 subtitle-1">材料</div>
 
-                  <div>{{ elm.ingredient }}</div>
-                </v-card-text>
+                <div>{{ elm.ingredient }}</div>
+              </v-card-text>
 
-                <v-divider class="mx-4"></v-divider>
-              </v-card>
-            </template>
-          </div>
-        </draggable>
-      </div>
+              <v-divider class="mx-4"></v-divider>
+            </v-card>
+          </template>
+        </v-flex>
+      </v-layout>
     </div>
   </div>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
-
 export default {
-  components: { draggable },
   data: () => ({
     loading: false,
     arrayList: [
@@ -72,6 +83,56 @@ export default {
         ingredient: '・チキンラーメン<br />・砂糖',
       },
       { id: 3, title: '焼きそばの塩麹炒め', ingredient: '・GooTa<br />・お湯' },
+      {
+        id: 4,
+        title: '4焼きそばの塩麹炒め',
+        ingredient: '・GooTa<br />・お湯',
+      },
+      {
+        id: 5,
+        title: '5焼きそばの塩麹炒め',
+        ingredient: '・GooTa<br />・お湯',
+      },
+      {
+        id: 6,
+        title: '6焼きそばの塩麹炒め',
+        ingredient: '・GooTa<br />・お湯',
+      },
+      {
+        id: 7,
+        title: '7焼きそばの塩麹炒め',
+        ingredient: '・GooTa<br />・お湯',
+      },
+    ],
+    recipe_calendar: [
+      {
+        date: '2021/02/15',
+        recipes: [1, 2, 3],
+      },
+      {
+        date: '2021/02/16',
+        recipes: [],
+      },
+      {
+        date: '2021/02/17',
+        recipes: [],
+      },
+      {
+        date: '2021/02/18',
+        recipes: [],
+      },
+      {
+        date: '2021/02/19',
+        recipes: [],
+      },
+      {
+        date: '2021/02/20',
+        recipes: [],
+      },
+      {
+        date: '2021/02/21',
+        recipes: [],
+      },
     ],
   }),
 
