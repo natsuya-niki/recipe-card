@@ -12,9 +12,11 @@
       <tr>
         <template v-for="tr in recipe_calendar">
           <td :key="tr.recipes">
-            <template v-for="(id_list, index) in tr.recipes" :key="id_list.id"
-              ><p>{{ id }}</p></template
-            >
+            <template v-for="recipe_id in tr.recipes">
+              <p :key="recipe_id">
+                {{ recipe_id }}
+              </p>
+            </template>
           </td>
         </template>
       </tr>
