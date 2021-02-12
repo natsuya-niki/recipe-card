@@ -4,13 +4,61 @@
       <h1>1週間の献立</h1>
     </div>
     <v-container class="grey lighten-5 mb-6">
-      <v-row no-gutters style="height: 150px">
-        <v-col v-for="n in recipe_calendar" :key="n">
-          <v-card class="pa-2" outlined tile> {{ n.date }} </v-card>
-          <v-card class="pa-2" outlined tile>
-            <draggable v-model="recipe_calendar" :options="{ group: 'recipe' }">
-              <template v-for="recipe in recipe_calendar.recipes">
-                {{ recipe }}
+      <v-row no-gutters>
+        <v-col v-for="calendar in recipe_calendar" :key="calendar.date">
+          <v-card class="pa-2" outlined tile> {{ calendar.date }} </v-card>
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <v-col v-for="calendar in recipe_calendar" :key="calendar.date">
+          <v-card class="pa-1" outlined tile>
+            <draggable
+              v-model="calendar.recipes"
+              :options="{ group: 'recipe' }"
+            >
+              <template v-for="recipe in calendar.recipes">
+                <v-card
+                  :key="recipe.id"
+                  :loading="loading"
+                  class="ma-1"
+                  max-width="200"
+                >
+                  <template slot="progress">
+                    <v-progress-linear
+                      color="deep-purple"
+                      height="10"
+                      indeterminate
+                    ></v-progress-linear>
+                  </template>
+
+                  <v-img
+                    height="250"
+                    src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                  ></v-img>
+
+                  <v-card-title>{{ recipe.title }}</v-card-title>
+
+                  <v-card-text>
+                    <v-row align="center" class="mx-0">
+                      <v-rating
+                        :value="4.5"
+                        color="amber"
+                        dense
+                        half-increments
+                        readonly
+                        size="14"
+                      ></v-rating>
+
+                      <div class="grey--text ml-4">4.5 (413)</div>
+                    </v-row>
+
+                    <div class="my-4 subtitle-1">材料</div>
+
+                    <div>{{ recipe.ingredient }}</div>
+                  </v-card-text>
+
+                  <v-divider class="mx-4"></v-divider>
+                </v-card>
               </template>
             </draggable>
           </v-card>
