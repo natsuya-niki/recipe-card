@@ -3,66 +3,75 @@
     <div style="margin-top: 20px">
       <h1>1週間の献立</h1>
     </div>
-    <table>
-      <tr>
-        <template v-for="tr in recipe_calendar">
-          <th :key="tr.date">{{ tr.date }}</th>
-        </template>
-      </tr>
-      <tr>
-        <template v-for="tr in recipe_calendar">
-          <td :key="tr.recipes">
-            <template v-for="recipe_id in tr.recipes">
-              <p :key="recipe_id">
-                {{ recipe_id }}
-              </p>
-            </template>
-          </td>
-        </template>
-      </tr>
-    </table>
+    <v-container class="grey lighten-5 mb-6">
+      <v-row no-gutters style="height: 150px">
+        <v-col v-for="n in recipe_calendar" :key="n">
+          <v-card class="pa-2" outlined tile> {{ n.date }} </v-card>
+          <v-card class="pa-2" outlined tile>
+            <draggable v-model="recipe_calendar" :options="{ group: 'recipe' }">
+              <template v-for="recipe in recipe_calendar.recipes">
+                {{ recipe }}
+              </template>
+            </draggable>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
     <div style="margin-top: 20px">
       <v-layout row wrap style="width: 100%; color: #dd0000">
         <v-flex v-for="elm in arrayList" :key="elm.id">
-          <template>
-            <v-card :loading="loading" class="ma-2" max-width="300">
-              <template slot="progress">
-                <v-progress-linear
-                  color="deep-purple"
-                  height="10"
-                  indeterminate
-                ></v-progress-linear>
-              </template>
+          <draggable
+            v-model="arrayList"
+            :options="{
+              group: {
+                name: 'recipe',
+                pull: 'clone',
+                put: false,
+              },
+              sort: false,
+            }"
+            :clone="handleClone"
+          >
+            <template>
+              <v-card :loading="loading" class="ma-2" max-width="300">
+                <template slot="progress">
+                  <v-progress-linear
+                    color="deep-purple"
+                    height="10"
+                    indeterminate
+                  ></v-progress-linear>
+                </template>
 
-              <v-img
-                height="250"
-                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-              ></v-img>
+                <v-img
+                  height="250"
+                  src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                ></v-img>
 
-              <v-card-title>{{ elm.title }}</v-card-title>
+                <v-card-title>{{ elm.title }}</v-card-title>
 
-              <v-card-text>
-                <v-row align="center" class="mx-0">
-                  <v-rating
-                    :value="4.5"
-                    color="amber"
-                    dense
-                    half-increments
-                    readonly
-                    size="14"
-                  ></v-rating>
+                <v-card-text>
+                  <v-row align="center" class="mx-0">
+                    <v-rating
+                      :value="4.5"
+                      color="amber"
+                      dense
+                      half-increments
+                      readonly
+                      size="14"
+                    ></v-rating>
 
-                  <div class="grey--text ml-4">4.5 (413)</div>
-                </v-row>
+                    <div class="grey--text ml-4">4.5 (413)</div>
+                  </v-row>
 
-                <div class="my-4 subtitle-1">材料</div>
+                  <div class="my-4 subtitle-1">材料</div>
 
-                <div>{{ elm.ingredient }}</div>
-              </v-card-text>
+                  <div>{{ elm.ingredient }}</div>
+                </v-card-text>
 
-              <v-divider class="mx-4"></v-divider>
-            </v-card>
-          </template>
+                <v-divider class="mx-4"></v-divider>
+              </v-card>
+            </template>
+          </draggable>
         </v-flex>
       </v-layout>
     </div>
@@ -70,7 +79,10 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
+
 export default {
+  components: { draggable },
   data: () => ({
     loading: false,
     arrayList: [
@@ -109,7 +121,13 @@ export default {
     recipe_calendar: [
       {
         date: '2021/02/15',
-        recipes: [1, 2, 3],
+        recipes: [
+          {
+            id: 1,
+            title: '登録済み',
+            ingredient: 'そば',
+          },
+        ],
       },
       {
         date: '2021/02/16',
@@ -143,6 +161,17 @@ export default {
       this.loading = true
 
       setTimeout(() => (this.loading = false), 2000)
+    },
+    handleClone(item) {
+      // Create a fresh copy of item
+      const cloneMe = JSON.parse(JSON.stringify(item))
+
+      console.log(cloneMe)
+      console.log(item.id)
+
+      this.$delete(cloneMe, item.id)
+
+      return cloneMe
     },
   },
 }
